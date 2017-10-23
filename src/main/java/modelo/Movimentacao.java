@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author HP
  */
 public class Movimentacao implements Serializable{
-    
+   
     private static int contid;
     private int id;
     private String descricao;
@@ -31,11 +31,15 @@ public class Movimentacao implements Serializable{
         this.tipo = tipo;
         this.categoria = categoria;
         this.email = email;
-        this.id = ++contid;
+        this.id = +contid;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     public String getDescricao() {
@@ -134,7 +138,5 @@ public class Movimentacao implements Serializable{
         }
         return true;
     }
-
-   
     
 }

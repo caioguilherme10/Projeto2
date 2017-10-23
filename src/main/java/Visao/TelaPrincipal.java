@@ -111,6 +111,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         CadastraMovimentacao movimentacao = new CadastraMovimentacao(usu);
         movimentacao.setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -118,6 +119,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         GerenciarFinancas financas = new GerenciarFinancas(usu);
         financas.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

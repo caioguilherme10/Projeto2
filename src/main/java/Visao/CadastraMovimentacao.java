@@ -5,8 +5,12 @@
  */
 package Visao;
 
+import controle.DaoMovimentacao;
+import controle.MovimentacaoDaoBanco;
 import controle.MovimentacaoDaoBinario;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,7 +28,7 @@ import modelo.Usuario;
 public class CadastraMovimentacao extends javax.swing.JFrame {
     
     private Usuario usu;
-    private MovimentacaoDaoBinario movimentacaodao;
+    private DaoMovimentacao movimentacaodao;
     /**
      * Creates new form CadastraMovimentacao
      */
@@ -32,11 +36,7 @@ public class CadastraMovimentacao extends javax.swing.JFrame {
         usu = teste;
         initComponents();
         
-        try{
-            movimentacaodao = new MovimentacaoDaoBinario();
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
+        movimentacaodao = new MovimentacaoDaoBinario();
     }
 
     private CadastraMovimentacao() {
@@ -186,13 +186,15 @@ public class CadastraMovimentacao extends javax.swing.JFrame {
         
         Movimentacao mov = new Movimentacao(Descricao.getText(),localDate, valor ,Tipo.getItemAt(Tipo.getSelectedIndex()) , Categoria.getItemAt(Categoria.getSelectedIndex()), usu.getEmail());
         try {
-            if(movimentacaodao.create(mov)){
+            if(movimentacaodao.salvar(mov)){
                 dispose();
             }else{
                         
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(TelaDeCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastraMovimentacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -209,9 +211,8 @@ public class CadastraMovimentacao extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
-//        TelaPrincipal perfil = new TelaPrincipal(usu);
-//        perfil.setVisible(true);
-        dispose();
+        TelaPrincipal perfil = new TelaPrincipal(usu);
+        perfil.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
     /**

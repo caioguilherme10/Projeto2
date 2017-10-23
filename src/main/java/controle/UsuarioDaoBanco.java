@@ -12,7 +12,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Usuario;
 
 /**
@@ -23,14 +24,14 @@ public class UsuarioDaoBanco implements Dao<Usuario>{
     
     private ConFactory factory;
     private Connection con;
-            
+    
     public UsuarioDaoBanco(){
         factory = new ConFactory();
         
         try {
-           con = factory.getConnection();
+            con = factory.getConnection();
         } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Falha na conexão com o banco", "Mensagem de erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(UsuarioDaoBanco.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -44,7 +45,6 @@ public class UsuarioDaoBanco implements Dao<Usuario>{
     @Override
     public boolean salvar(Usuario u) throws ClassNotFoundException, SQLException{
   
-            
         PreparedStatement stmt = con.prepareStatement("INSERT INTO usuario (email,nome,nascimento,sexo,senha) VALUES (?,?,?,?,?)");
         
         stmt.setString(1, u.getEmail());
@@ -66,7 +66,6 @@ public class UsuarioDaoBanco implements Dao<Usuario>{
     public List<Usuario> listar() throws ClassNotFoundException, SQLException {
         
         List<Usuario> usuarios = new ArrayList<>();
-        Connection con = factory.getConnection();
         
         PreparedStatement stmt = con.prepareStatement("SELECT * FROM usuario");
         ResultSet rs = stmt.executeQuery();
@@ -95,9 +94,7 @@ public class UsuarioDaoBanco implements Dao<Usuario>{
     @Override
     public Usuario buscar(String e) throws ClassNotFoundException, SQLException {
         
-        Connection con = factory.getConnection();
-        
-        PreparedStatement stmt = con.prepareStatement("SELECT email FROM usuario WHERE email=?");
+        PreparedStatement stmt = con.prepareStatement("SELECT email FROM usuario WHERE email like ?");
         stmt.setString(1, e);
         ResultSet rs = stmt.executeQuery();
         Usuario u = null;
@@ -124,7 +121,6 @@ public class UsuarioDaoBanco implements Dao<Usuario>{
     @Override
     public boolean atualizar(Usuario u) throws ClassNotFoundException, SQLException {
         
-        Connection con = factory.getConnection();
         
         PreparedStatement stmt = con.prepareStatement("UPDATE usuario SET nome=? , nascimento=? , sexo=? , senha=? where email=?");
         
@@ -134,11 +130,8 @@ public class UsuarioDaoBanco implements Dao<Usuario>{
         stmt.setString(4, u.getSenha());
         stmt.setString(5, u.getEmail());
         
-        if(stmt.executeUpdate()>0){
-            return true;
-        }else{
-            return false;
-        }
+        
+        return stmt.executeUpdate()>0;
     }
 
     /**
@@ -151,17 +144,13 @@ public class UsuarioDaoBanco implements Dao<Usuario>{
     @Override
     public boolean deletar(Usuario u) throws ClassNotFoundException, SQLException {
         
-        Connection con = factory.getConnection();
         
         PreparedStatement stmt = con.prepareStatement("DELETE FROM usuario WHERE email like ?");
         
         stmt.setString(1, u.getEmail());
         
-        if(stmt.executeUpdate()>0){
-            return true;
-        }else{
-            return false;
-        }
+        
+        return stmt.executeUpdate()>0;
     }
     
 }

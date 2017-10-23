@@ -38,11 +38,9 @@ public class GerenciarPerfil extends javax.swing.JFrame {
         Email.setEditable(false);
         usuariodao = new UsuarioDaoBinario();
         
-        try{
-            movimentacaodao = new MovimentacaoDaoBinario();
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
+        
+        movimentacaodao = new MovimentacaoDaoBinario();
+        
     }
     
     public GerenciarPerfil() {
@@ -354,8 +352,7 @@ public class GerenciarPerfil extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
-        TelaPrincipal perfil = new TelaPrincipal(usu);
-        perfil.setVisible(true);
+        
     }//GEN-LAST:event_formWindowClosed
 
     /**

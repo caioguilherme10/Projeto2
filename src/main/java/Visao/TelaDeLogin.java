@@ -6,6 +6,7 @@
 package Visao;
 
 import controle.Dao;
+import controle.UsuarioDaoBanco;
 import controle.UsuarioDaoBinario;
 import java.io.IOException;
 import java.sql.SQLException;

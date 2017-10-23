@@ -5,17 +5,57 @@
  */
 package Visao;
 
+import controle.MovimentacaoDaoBinario;
+import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modelo.Movimentacao;
+import modelo.Usuario;
+
 /**
  *
  * @author HP
  */
 public class GerenciarMovimentacao extends javax.swing.JFrame {
 
+    private Usuario usu;
+    private int idm;
+    private MovimentacaoDaoBinario movimentacaodao;
     /**
      * Creates new form GerenciarMovimentacao
      */
-    public GerenciarMovimentacao() {
+    public GerenciarMovimentacao(int id, Usuario teste) {
+        idm = id;
+        usu = teste;
         initComponents();
+        Movimentacao mov;
+        try {
+            mov = movimentacaodao.buscarId(idm);
+            Descricao.setText(mov.getDescricao());
+            LocalDate ld = mov.getData();
+            Instant instant = ld.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+            Date date = Date.from(instant);
+            Data.setDate(date);
+            Float a = mov.getPreco();
+            String s = "" + a;
+            Valor.setText(s);
+            Tipo.setSelectedIndex(0);
+            Categoria.setSelectedIndex(0);
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(GerenciarMovimentacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        movimentacaodao = new MovimentacaoDaoBinario();
+    }
+
+    private GerenciarMovimentacao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -27,21 +67,187 @@ public class GerenciarMovimentacao extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        Descricao = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        Data = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        Valor = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        Tipo = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        Categoria = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel1.setText("Descrição");
+
+        Descricao.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel2.setText("Data");
+
+        Data.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel3.setText("Valor");
+
+        Valor.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel4.setText("Tipo");
+
+        Tipo.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrada", "Saida" }));
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel5.setText("Categoria");
+
+        Categoria.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        Categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alimentação", "Cartão de Crédito", "Despesas Domésticas", "Saúde", "Pessoal", "Outros" }));
+
+        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton1.setText("Atualizar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton2.setText("Excluir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton3.setText("Limpar Formulario");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Descricao)
+                            .addComponent(Data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Valor)
+                            .addComponent(Tipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Categoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(Data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(Valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Descricao.setText("");
+        Data.setDate(null);
+        Valor.setText("");
+        Tipo.setSelectedIndex(0);
+        Categoria.setSelectedIndex(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            Movimentacao mov = movimentacaodao.buscarId(idm);
+            
+            if(movimentacaodao.excluir(mov)){
+                GerenciarFinancas financas = new GerenciarFinancas(usu);
+                financas.setVisible(true);
+                dispose();
+            }else{
+                
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(GerenciarMovimentacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+            Movimentacao mov = movimentacaodao.buscarId(idm);
+            
+            Date d = Data.getDate();
+            Instant instant = Instant.ofEpochMilli(d.getTime());
+            LocalDate localDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+        
+            float valor = Float.parseFloat(Valor.getText());
+        
+            Movimentacao mov1 = new Movimentacao(Descricao.getText(),localDate, valor ,Tipo.getItemAt(Tipo.getSelectedIndex()) , Categoria.getItemAt(Categoria.getSelectedIndex()), usu.getEmail());
+            
+            if(movimentacaodao.atualizar(mov, mov1)){
+                GerenciarFinancas financas = new GerenciarFinancas(usu);
+                financas.setVisible(true);
+                dispose();
+            }else{
+                
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(GerenciarMovimentacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +285,18 @@ public class GerenciarMovimentacao extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Categoria;
+    private com.toedter.calendar.JDateChooser Data;
+    private javax.swing.JTextField Descricao;
+    private javax.swing.JComboBox<String> Tipo;
+    private javax.swing.JTextField Valor;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 }

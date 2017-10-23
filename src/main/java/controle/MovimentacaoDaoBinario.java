@@ -12,28 +12,44 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import modelo.Movimentacao;
 
 /**
  *
  * @author HP
  */
-public class MovimentacaoDaoBinario {
+public class MovimentacaoDaoBinario implements DaoMovimentacao<Movimentacao>{
     
     private File arquivo;
     
-    public MovimentacaoDaoBinario() throws IOException{
+    public MovimentacaoDaoBinario() {
         arquivo = new File("Movimentacao.bin");
         
         if(!arquivo.exists()){
-            arquivo.createNewFile();
+            try {
+                arquivo.createNewFile();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Falha na conexão com arquivo", "Mensagem de erro", JOptionPane.ERROR_MESSAGE);
+            }
         }
     
     }
     
+    /**
+     *
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    @Override
     public List<Movimentacao> listar() throws FileNotFoundException, IOException, ClassNotFoundException{
         if(arquivo.length() == 0){
             return new ArrayList<>();
@@ -59,6 +75,16 @@ public class MovimentacaoDaoBinario {
         return false;
     }
     
+    /**
+     *
+     * @param inicio
+     * @param fim
+     * @return
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws ClassNotFoundException
+     */
+    @Override
     public List<Movimentacao> BuscarPorData (LocalDate inicio, LocalDate fim) throws IOException, FileNotFoundException, ClassNotFoundException{
         
         List<Movimentacao> movimentacoes = listar();
@@ -74,15 +100,6 @@ public class MovimentacaoDaoBinario {
         return lista;
     }
     
-    public boolean create (Movimentacao m) throws IOException, FileNotFoundException, ClassNotFoundException{
-        
-        List<Movimentacao> movimentacoes = listar();
-        
-        movimentacoes.add(m);
-        atualizarArquivo(movimentacoes);
-        return true;
-    }
-    
     //Deletar uma movimetacao
     public boolean excluir(Movimentacao m) throws IOException, FileNotFoundException, ClassNotFoundException{
         List<Movimentacao> movimentacoes = listar();
@@ -93,7 +110,7 @@ public class MovimentacaoDaoBinario {
     }
     
     //Deletar Movimentacao do usuario
-    public void deletar(String email) throws IOException, FileNotFoundException, ClassNotFoundException{
+    public boolean deletar(String email) throws IOException, FileNotFoundException, ClassNotFoundException{
         List<Movimentacao> movimentacoes = listar();
         
         for(int i = 0; i<movimentacoes.size();i++){
@@ -102,6 +119,7 @@ public class MovimentacaoDaoBinario {
             }
         }
         atualizarArquivo(movimentacoes);
+        return true;
     }
 
     private void atualizarArquivo(List<Movimentacao> movimentacoes) throws FileNotFoundException, IOException {
@@ -109,5 +127,38 @@ public class MovimentacaoDaoBinario {
         
         out.writeObject(movimentacoes);
         out.close();
+    }
+
+    /**
+     *
+     * @param m
+     * @return
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    @Override
+    public boolean salvar(Movimentacao m) throws IOException, FileNotFoundException, ClassNotFoundException, SQLException {
+        
+        List<Movimentacao> movimentacoes = listar();
+        
+        movimentacoes.add(m);
+        atualizarArquivo(movimentacoes);
+        return true;
+    }
+    
+    public Movimentacao buscarId(int id) throws IOException, FileNotFoundException, ClassNotFoundException{
+        
+        List<Movimentacao> movimentacoes = listar();
+        Movimentacao mov = null;
+       
+        for(int i=0; i<movimentacoes.size();i++){
+            if(id == movimentacoes.get(i).getId()){
+                mov = movimentacoes.get(i);
+            }
+        }
+       
+        return mov;
     }
 }

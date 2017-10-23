@@ -5,8 +5,11 @@
  */
 package Visao;
 
+import controle.DaoMovimentacao;
+import controle.MovimentacaoDaoBanco;
 import controle.MovimentacaoDaoBinario;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,7 +30,7 @@ import modelo.Usuario;
 public class GerenciarFinancas extends javax.swing.JFrame {
 
     private Usuario usu;
-    private MovimentacaoDaoBinario movimentacaodao;
+    private DaoMovimentacao movimentacaodao;
     private List<Movimentacao> movimentacoes;
     
     /**
@@ -39,11 +42,7 @@ public class GerenciarFinancas extends javax.swing.JFrame {
         movimentacoes = null;
         initComponents();
         
-        try{
-            movimentacaodao = new MovimentacaoDaoBinario();
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
+        movimentacaodao = new MovimentacaoDaoBinario();
         
     }
     
@@ -168,9 +167,9 @@ public class GerenciarFinancas extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
-//        TelaPrincipal perfil = new TelaPrincipal();
-//        perfil.setVisible(true);
-        dispose();
+        TelaPrincipal perfil = new TelaPrincipal(usu);
+        perfil.setVisible(true);
+      
     }//GEN-LAST:event_formWindowClosed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -180,10 +179,10 @@ public class GerenciarFinancas extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        
-        System.out.println(jTable1.getSelectedRow());
-        
-        
+        int id = jTable1.getSelectedRow();
+        GerenciarMovimentacao movimenta = new GerenciarMovimentacao(id , usu);
+        movimenta.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
@@ -248,6 +247,8 @@ public class GerenciarFinancas extends javax.swing.JFrame {
         try {
             movimentacoes = movimentacaodao.BuscarPorData(localDateinicio, localDatefim);
         } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(GerenciarFinancas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(GerenciarFinancas.class.getName()).log(Level.SEVERE, null, ex);
         }
         String matriz[][];
