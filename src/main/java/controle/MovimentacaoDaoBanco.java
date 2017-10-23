@@ -89,7 +89,7 @@ public class MovimentacaoDaoBanco implements DaoMovimentacao<Movimentacao>{
      * @throws SQLException
      */
     @Override
-    public List<Movimentacao> BuscarPorData (LocalDate inicio, LocalDate fim) throws IOException, FileNotFoundException, ClassNotFoundException, SQLException{
+    public List<Movimentacao> BuscarPorData (LocalDate inicio, LocalDate fim ,String email) throws IOException, FileNotFoundException, ClassNotFoundException, SQLException{
         
         List<Movimentacao> movimentacoes = listar();
         
@@ -102,5 +102,15 @@ public class MovimentacaoDaoBanco implements DaoMovimentacao<Movimentacao>{
         }
         
         return lista;
+    }
+    
+    //Deletar Movimentacao do usuario
+    public boolean deletar(String email) throws IOException, FileNotFoundException, ClassNotFoundException, SQLException{
+        
+        PreparedStatement stmt = con.prepareStatement("DELETE FROM movimentacao WHERE email like ?");
+        
+        stmt.setString(1, email);
+        
+        return stmt.executeUpdate()>0;
     }
 }

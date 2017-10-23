@@ -31,7 +31,7 @@ public class Movimentacao implements Serializable{
         this.tipo = tipo;
         this.categoria = categoria;
         this.email = email;
-        this.id = +contid;
+        this.id = ++contid;
     }
 
     public int getId() {

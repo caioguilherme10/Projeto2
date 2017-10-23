@@ -32,7 +32,7 @@ public class GerenciarFinancas extends javax.swing.JFrame {
     private Usuario usu;
     private DaoMovimentacao movimentacaodao;
     private List<Movimentacao> movimentacoes;
-    
+    private String mat[][];
     /**
      * Creates new form GerenciarFinancas
      * @param teste
@@ -179,10 +179,14 @@ public class GerenciarFinancas extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        int id = jTable1.getSelectedRow();
-        GerenciarMovimentacao movimenta = new GerenciarMovimentacao(id , usu);
-        movimenta.setVisible(true);
-        dispose();
+        String id = String.valueOf(jTable1.getSelectedRow() + 1);
+        for(int i=0; i<mat.length;i++){
+            if(mat[i][0].equals(id)){
+                GerenciarMovimentacao movimenta = new GerenciarMovimentacao(mat[i][0], usu);
+                movimenta.setVisible(true);
+                dispose();
+            }
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
@@ -235,7 +239,6 @@ public class GerenciarFinancas extends javax.swing.JFrame {
         
         String titulo[] = {"Descricão","Data","Preço","Tipo","Categoria"};
         
-        
         Date d = DataInicio.getDate();
         Instant instant = Instant.ofEpochMilli(d.getTime());
         LocalDate localDateinicio = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
@@ -245,10 +248,8 @@ public class GerenciarFinancas extends javax.swing.JFrame {
         LocalDate localDatefim = LocalDateTime.ofInstant(instantf, ZoneId.systemDefault()).toLocalDate();
         
         try {
-            movimentacoes = movimentacaodao.BuscarPorData(localDateinicio, localDatefim);
-        } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(GerenciarFinancas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            movimentacoes = movimentacaodao.BuscarPorData(localDateinicio, localDatefim, usu.getEmail());
+        } catch (IOException | ClassNotFoundException | SQLException ex) {
             Logger.getLogger(GerenciarFinancas.class.getName()).log(Level.SEVERE, null, ex);
         }
         String matriz[][];
@@ -270,6 +271,13 @@ public class GerenciarFinancas extends javax.swing.JFrame {
                 matriz[i][2] = "" + m.getPreco();
                 matriz[i][3] = m.getTipo();
                 matriz[i][4] = m.getCategoria();
+            }
+            
+            mat = new String[movimentacoes.size()][1];
+            for(int i=0; i<movimentacoes.size(); i++){
+                Movimentacao m1 = movimentacoes.get(i);
+                mat[i][0] = String.valueOf(m1.getId());
+                System.out.println(m1.getId());
             }
         }
         

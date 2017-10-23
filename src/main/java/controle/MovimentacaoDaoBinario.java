@@ -85,7 +85,7 @@ public class MovimentacaoDaoBinario implements DaoMovimentacao<Movimentacao>{
      * @throws ClassNotFoundException
      */
     @Override
-    public List<Movimentacao> BuscarPorData (LocalDate inicio, LocalDate fim) throws IOException, FileNotFoundException, ClassNotFoundException{
+    public List<Movimentacao> BuscarPorData (LocalDate inicio, LocalDate fim, String email) throws IOException, FileNotFoundException, ClassNotFoundException{
         
         List<Movimentacao> movimentacoes = listar();
         
@@ -93,7 +93,9 @@ public class MovimentacaoDaoBinario implements DaoMovimentacao<Movimentacao>{
         
         for(int i=0; i<movimentacoes.size();i++){
             if(inicio.isBefore(movimentacoes.get(i).getData()) && fim.isAfter(movimentacoes.get(i).getData())){
-                lista.add(movimentacoes.get(i));
+                if(movimentacoes.get(i).getEmail().equals(email)){
+                    lista.add(movimentacoes.get(i));
+                }
             }
         }
         
@@ -151,14 +153,14 @@ public class MovimentacaoDaoBinario implements DaoMovimentacao<Movimentacao>{
     public Movimentacao buscarId(int id) throws IOException, FileNotFoundException, ClassNotFoundException{
         
         List<Movimentacao> movimentacoes = listar();
-        Movimentacao mov = null;
        
         for(int i=0; i<movimentacoes.size();i++){
+            System.out.println(movimentacoes.get(i).getId());
             if(id == movimentacoes.get(i).getId()){
-                mov = movimentacoes.get(i);
+                return movimentacoes.get(i);
             }
         }
        
-        return mov;
+        return null;
     }
 }

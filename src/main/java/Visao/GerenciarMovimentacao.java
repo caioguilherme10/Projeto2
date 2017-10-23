@@ -29,26 +29,11 @@ public class GerenciarMovimentacao extends javax.swing.JFrame {
     /**
      * Creates new form GerenciarMovimentacao
      */
-    public GerenciarMovimentacao(int id, Usuario teste) {
-        idm = id;
+    public GerenciarMovimentacao(String id, Usuario teste) {
+        idm = Integer.parseInt(id);
         usu = teste;
         initComponents();
-        Movimentacao mov;
-        try {
-            mov = movimentacaodao.buscarId(idm);
-            Descricao.setText(mov.getDescricao());
-            LocalDate ld = mov.getData();
-            Instant instant = ld.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-            Date date = Date.from(instant);
-            Data.setDate(date);
-            Float a = mov.getPreco();
-            String s = "" + a;
-            Valor.setText(s);
-            Tipo.setSelectedIndex(0);
-            Categoria.setSelectedIndex(0);
-        } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(GerenciarMovimentacao.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        System.out.println(idm);
         
         
         movimentacaodao = new MovimentacaoDaoBinario();
@@ -237,6 +222,8 @@ public class GerenciarMovimentacao extends javax.swing.JFrame {
         
             Movimentacao mov1 = new Movimentacao(Descricao.getText(),localDate, valor ,Tipo.getItemAt(Tipo.getSelectedIndex()) , Categoria.getItemAt(Categoria.getSelectedIndex()), usu.getEmail());
             
+            System.out.println(mov.toString());
+            System.out.println(mov1.toString());
             if(movimentacaodao.atualizar(mov, mov1)){
                 GerenciarFinancas financas = new GerenciarFinancas(usu);
                 financas.setVisible(true);

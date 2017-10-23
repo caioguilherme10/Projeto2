@@ -19,5 +19,5 @@ public interface DaoMovimentacao<T> {
     
     public boolean salvar(T ojb) throws IOException, FileNotFoundException, ClassNotFoundException, SQLException;
     public List<T> listar() throws FileNotFoundException, IOException, ClassNotFoundException, SQLException ;
-    public List<T> BuscarPorData (LocalDate inicio, LocalDate fim) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException ;
+    public List<T> BuscarPorData (LocalDate inicio, LocalDate fim ,String email) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException ;
 }
