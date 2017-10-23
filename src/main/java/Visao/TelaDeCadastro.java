@@ -32,7 +32,7 @@ public class TelaDeCadastro extends javax.swing.JFrame {
         
         initComponents();
         
-        usuariodao = new UsuarioDaoBinario();
+        usuariodao = new UsuarioDaoBanco();
         
     }
 

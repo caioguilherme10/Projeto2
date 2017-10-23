@@ -7,6 +7,7 @@ package Visao;
 
 import controle.Dao;
 import controle.MovimentacaoDaoBinario;
+import controle.UsuarioDaoBanco;
 import controle.UsuarioDaoBinario;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -36,7 +37,7 @@ public class GerenciarPerfil extends javax.swing.JFrame {
         
         Email.setText(usu.getEmail());
         Email.setEditable(false);
-        usuariodao = new UsuarioDaoBinario();
+        usuariodao = new UsuarioDaoBanco();
         
         
         movimentacaodao = new MovimentacaoDaoBinario();

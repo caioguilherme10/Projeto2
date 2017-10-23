@@ -28,7 +28,7 @@ public class TelaDeLogin extends javax.swing.JFrame {
     public TelaDeLogin() {
         initComponents();
         
-        usuariodao = new UsuarioDaoBinario();
+        usuariodao = new UsuarioDaoBanco();
     }
 
     /**
@@ -135,6 +135,18 @@ public class TelaDeLogin extends javax.swing.JFrame {
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         String email = Email.getText();
+        
+        try {
+            Usuario us = (Usuario) usuariodao.buscar(email);
+        } catch (IOException ex) {
+            Logger.getLogger(TelaDeLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaDeLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaDeLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         String senha = new String(Senha.getPassword());
         if("".equals(email) || "".equals(senha)){
             JOptionPane.showMessageDialog(null, "Campos vazios", "Mensagem de Erro", JOptionPane.ERROR_MESSAGE);

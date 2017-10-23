@@ -94,7 +94,7 @@ public class UsuarioDaoBanco implements Dao<Usuario>{
     @Override
     public Usuario buscar(String e) throws ClassNotFoundException, SQLException {
         
-        PreparedStatement stmt = con.prepareStatement("SELECT email FROM usuario WHERE email like ?");
+        PreparedStatement stmt = con.prepareStatement("SELECT * FROM usuario WHERE email like ?");
         stmt.setString(1, e);
         ResultSet rs = stmt.executeQuery();
         Usuario u = null;
@@ -122,7 +122,7 @@ public class UsuarioDaoBanco implements Dao<Usuario>{
     public boolean atualizar(Usuario u) throws ClassNotFoundException, SQLException {
         
         
-        PreparedStatement stmt = con.prepareStatement("UPDATE usuario SET nome=? , nascimento=? , sexo=? , senha=? where email=?");
+        PreparedStatement stmt = con.prepareStatement("UPDATE usuario SET nome=? , nascimento=? , sexo=? , senha=? WHERE email like ?");
         
         stmt.setString(1, u.getNome());
         stmt.setDate(2, java.sql.Date.valueOf(u.getNascimento()));
