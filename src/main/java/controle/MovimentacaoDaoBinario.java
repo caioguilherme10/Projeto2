@@ -61,13 +61,17 @@ public class MovimentacaoDaoBinario implements DaoMovimentacao<Movimentacao>{
         }
     }
     
-    public boolean atualizar(Movimentacao m, Movimentacao novo) throws IOException, FileNotFoundException, ClassNotFoundException {
+    public boolean atualizar(Movimentacao novo, int id) throws IOException, FileNotFoundException, ClassNotFoundException {
         
         List<Movimentacao> movimentacoes = listar();
         
         for(int i=0; i<movimentacoes.size();i++){
-            if(m.equals(i)){
-                movimentacoes.set(i, novo);
+            if(movimentacoes.get(i).getId() == id){
+                movimentacoes.get(i).setCategoria(novo.getCategoria());
+                movimentacoes.get(i).setData(novo.getData());
+                movimentacoes.get(i).setDescricao(novo.getDescricao());
+                movimentacoes.get(i).setPreco(novo.getPreco());
+                movimentacoes.get(i).setTipo(novo.getTipo());
                 atualizarArquivo(movimentacoes);
                 return true;
             }

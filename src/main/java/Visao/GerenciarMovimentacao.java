@@ -33,8 +33,6 @@ public class GerenciarMovimentacao extends javax.swing.JFrame {
         idm = Integer.parseInt(id);
         usu = teste;
         initComponents();
-        System.out.println(idm);
-        
         
         movimentacaodao = new MovimentacaoDaoBinario();
     }
@@ -146,7 +144,7 @@ public class GerenciarMovimentacao extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,7 +174,7 @@ public class GerenciarMovimentacao extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -222,9 +220,8 @@ public class GerenciarMovimentacao extends javax.swing.JFrame {
         
             Movimentacao mov1 = new Movimentacao(Descricao.getText(),localDate, valor ,Tipo.getItemAt(Tipo.getSelectedIndex()) , Categoria.getItemAt(Categoria.getSelectedIndex()), usu.getEmail());
             
-            System.out.println(mov.toString());
-            System.out.println(mov1.toString());
-            if(movimentacaodao.atualizar(mov, mov1)){
+            mov1.setId(idm);
+            if(movimentacaodao.atualizar(mov1, idm)){
                 GerenciarFinancas financas = new GerenciarFinancas(usu);
                 financas.setVisible(true);
                 dispose();
